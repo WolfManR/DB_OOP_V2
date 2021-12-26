@@ -22,10 +22,24 @@ Console.WriteLine($"{transferMessage} {(transferResult ? "succeed" : "failed")}"
 printer.Print(bankAccount);
 printer.Print(bankAccount2);
 
-
 Console.WriteLine("===============Bank work end======================");
+
 
 Helpers helpers = new Helpers();
 
 string toReverse = "qwertyuiop";
 Console.WriteLine($"reverse string : {toReverse}\nreversed state : {helpers.Reverse(toReverse)}");
+
+Console.WriteLine("===============Reverse string end==================");
+
+
+string toParse = "Кучма Андрей Витальевич & Kuchma@mail.ru Мизинцев Павел Николаевич & Pasha@mail.ru";
+
+List<string> emails = new List<string>();
+
+helpers.SearchMail(ref toParse, emails.Add);
+
+foreach (var email in emails)
+    Console.WriteLine(email);
+
+Console.WriteLine("===============Emails parse end==================");
