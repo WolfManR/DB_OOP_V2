@@ -21,3 +21,11 @@ bool transferResult = bankAccount.TryDepositTo(bankAccount2, transferAmount);
 Console.WriteLine($"{transferMessage} {(transferResult ? "succeed" : "failed")}");
 printer.Print(bankAccount);
 printer.Print(bankAccount2);
+
+
+Console.WriteLine("===============Bank work end======================");
+
+Helpers helpers = new Helpers();
+
+string toReverse = "qwertyuiop";
+Console.WriteLine($"reverse string : {toReverse}\nreversed state : {helpers.Reverse(toReverse)}");
