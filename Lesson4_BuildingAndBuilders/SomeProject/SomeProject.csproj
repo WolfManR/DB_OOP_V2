@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -9,6 +9,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Buildings.Core\Buildings.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Buildings.Core"/>
   </ItemGroup>
 
 </Project>

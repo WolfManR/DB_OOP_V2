@@ -1,19 +1,19 @@
 ﻿namespace Buildings.Core;
 
-public class Building
+public sealed class Building
 {
-    private readonly Guid _id;
+    private static int _idCounter;
+    private static int IdCounter => ++_idCounter;
+
+    private readonly int _id;
     private double _height;
     private int _numberOfStoreys;
     private int _countOfEntrances;
     private int _countOfApartments;
 
-    public Building()
-    {
-        _id = Guid.NewGuid();
-    }
+    internal Building() => _id = IdCounter;
 
-    public Guid Id => _id;
+    public int Id => _id;
 
     public double Height { get => _height; set => _height = value; }
     public int NumberOfStoreys { get => _numberOfStoreys; set => _numberOfStoreys = value; }
