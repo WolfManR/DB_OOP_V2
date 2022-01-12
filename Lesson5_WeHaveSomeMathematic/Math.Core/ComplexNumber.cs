@@ -1,10 +1,17 @@
-﻿namespace Math.Core;
+﻿using System.Globalization;
 
-public class ComplexNumber
+namespace Math.Core;
+
+public class ComplexNumber : IEquatable<ComplexNumber?>
 {
+    public static double EqualityPrecision { get; set; } = 0.0004;
+    // ReSharper disable once InconsistentNaming
+    private static readonly double _imaginaryUnit = MathF.Sqrt(-1);
+
     public double RealPart { get; set; }
     public double ImaginaryPart { get; set; }
-    public double ImaginaryUnit { get; } = MathF.Sqrt(-1);
+
+    public double ImaginaryUnit => _imaginaryUnit;
 
     public ComplexNumber() : this(0, 0) { }
 
@@ -20,21 +27,58 @@ public class ComplexNumber
     // Протестировать на простом примере.
 
 
-    public static ComplexNumber operator -(ComplexNumber left, ComplexNumber right)
+    public override string ToString()
     {
-        return new ComplexNumber(left.RealPart - right.RealPart, left.ImaginaryPart - right.ImaginaryPart);
+        if (RealPart == 0 && ImaginaryPart == 0) return "0";
+        if (RealPart == 0) return $"{ImaginaryPart} * i";
+        if (ImaginaryPart == 0) return RealPart.ToString(CultureInfo.InvariantCulture);
+        return ImaginaryPart < 0 ? $"{RealPart}{ImaginaryPart}i" : $"{RealPart}+{ImaginaryPart}i";
     }
-    public static ComplexNumber operator *(ComplexNumber left, ComplexNumber right)//(a + bi)(c + di) =(ac - bd) + (bc + ad)i.
+
+    public override bool Equals(object? obj) => Equals(obj as ComplexNumber);
+
+    public bool Equals(ComplexNumber? other) =>
+        other != null &&
+        System.Math.Abs(RealPart - other.RealPart) < EqualityPrecision &&
+        System.Math.Abs(ImaginaryPart - other.ImaginaryPart) < EqualityPrecision;
+
+    public override int GetHashCode() => HashCode.Combine(RealPart, ImaginaryPart);
+    public static bool operator ==(ComplexNumber? left, ComplexNumber? right) => EqualityComparer<ComplexNumber>.Default.Equals(left, right);
+    public static bool operator !=(ComplexNumber? left, ComplexNumber? right) => !(left == right);
+
+    public static ComplexNumber operator +(ComplexNumber? left, ComplexNumber? right)
     {
+        ThrowIfOperandsHasNullValue(left, right);
+        return new ComplexNumber(left!.RealPart + right!.RealPart, left.ImaginaryPart + right.ImaginaryPart);
+    }
+
+    public static ComplexNumber operator -(ComplexNumber? left, ComplexNumber? right)
+    {
+        ThrowIfOperandsHasNullValue(left, right);
+        return new ComplexNumber(left!.RealPart - right!.RealPart, left.ImaginaryPart - right.ImaginaryPart);
+    }
+
+    public static ComplexNumber operator *(ComplexNumber? left, ComplexNumber? right)//(a + bi)(c + di) =(ac - bd) + (bc + ad)i.
+    {
+        ThrowIfOperandsHasNullValue(left, right);
         return new ComplexNumber
         (
-            left.RealPart * right.RealPart - left.ImaginaryPart * right.ImaginaryPart,
+            left!.RealPart * right!.RealPart - left.ImaginaryPart * right.ImaginaryPart,
             left.ImaginaryPart * right.RealPart + left.RealPart * right.ImaginaryPart
         );
     }
 
-    public override string ToString()
+    private static void ThrowIfOperandsHasNullValue(ComplexNumber? left, ComplexNumber? right)
     {
-        return (ImaginaryPart < 0) ? $"{RealPart}{ImaginaryPart}i" : $"{RealPart}+{ImaginaryPart}i";
+        if (left is not null && right is not null) return;
+
+        throw new InvalidOperationException("One of operands was null")
+        {
+            Data =
+            {
+                [nameof(left)] = left,
+                [nameof(right)] = right
+            }
+        };
     }
 }
