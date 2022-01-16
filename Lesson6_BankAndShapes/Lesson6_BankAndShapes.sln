@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bank.Core", "Bank.Core\Bank
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bank.UIConsole", "Bank.UIConsole\Bank.UIConsole.csproj", "{BF3DD2C9-71B6-43A6-9EA6-A131EC26E2C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Figures.Core", "Figures.Core\Figures.Core.csproj", "{80EF52C0-BBCA-4872-8B26-12AF5F21D5F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Figures.UiConsole", "Figures.UiConsole\Figures.UiConsole.csproj", "{81DA2601-AC3A-48D8-AAC5-54ABC90DC855}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{BF3DD2C9-71B6-43A6-9EA6-A131EC26E2C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF3DD2C9-71B6-43A6-9EA6-A131EC26E2C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF3DD2C9-71B6-43A6-9EA6-A131EC26E2C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80EF52C0-BBCA-4872-8B26-12AF5F21D5F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80EF52C0-BBCA-4872-8B26-12AF5F21D5F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80EF52C0-BBCA-4872-8B26-12AF5F21D5F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80EF52C0-BBCA-4872-8B26-12AF5F21D5F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81DA2601-AC3A-48D8-AAC5-54ABC90DC855}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81DA2601-AC3A-48D8-AAC5-54ABC90DC855}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81DA2601-AC3A-48D8-AAC5-54ABC90DC855}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81DA2601-AC3A-48D8-AAC5-54ABC90DC855}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
