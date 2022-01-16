@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <Using Include="Bank.Core"/>
-    <Using Include="Bank.UIConsole"/>
   </ItemGroup>
 
 </Project>
