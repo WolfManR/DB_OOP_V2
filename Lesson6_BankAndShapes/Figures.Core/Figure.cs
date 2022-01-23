@@ -23,93 +23,131 @@ namespace Figures.Core
 
         public override void MoveHorizontal(int offset)
         {
+            X += offset;
         }
 
         public override void MoveVertical(int offset)
         {
+            Y += offset;
         }
 
         public override void ChangeColor(Color color)
         {
+            Color = color;
         }
 
         public override void Draw()
         {
+            PrintAndReset(() =>
+            {
+                Console.SetCursorPosition(X, Y);
+                Console.ForegroundColor = Color.ToConsoleColor();
+                Console.Write(Symbol);
+            });
+        }
+
+        protected virtual void PrintAndReset(Action draw)
+        {
+            var defaultColor = Console.ForegroundColor;
+            var (left, top) = Console.GetCursorPosition();
+            draw.Invoke();
+            Console.ForegroundColor = defaultColor;
+            Console.SetCursorPosition(left, top);
         }
     }
 
     internal sealed class Circle : Point
     {
+        private IEnumerable<Point> Paint { get; }
+
         public double Radius { get; set; }
         public double Thickness { get; set; }
         public double Square()
         {
-            return 0;
+            return Math.PI * Radius * 2;
         }
 
         public override void Draw()
         {
-            var radius = Radius;
-            var thickness = Thickness;
-            double rIn = radius - thickness, rOut = radius + thickness;
-
-            for (double y = radius; y >= -radius; --y)
+            PrintAndReset(() =>
             {
-                for (double x = -radius; x < rOut; x += 0.5)
+                var radius = Radius;
+                var thickness = Thickness;
+                double rIn = radius - thickness;
+                double rOut = radius + thickness;
+                double doubleRIn = rIn * rIn;
+                double doubleROut = rOut * rOut;
+
+                var posX = X;
+                var posY = Y;
+                Console.SetCursorPosition(posX, posY);
+                Console.ForegroundColor = Color.ToConsoleColor();
+
+                for (double y = radius; y >= -radius; --y)
                 {
-                    double value = x * x + y * y;
-                    if (value >= rIn * rIn && value <= rOut * rOut)
+                    for (double x = -radius; x < rOut; x += 0.5)
                     {
-                        Console.Write(Symbol);
+                        double value = x * x + y * y;
+                        if (value >= doubleRIn && value <= doubleROut)
+                        {
+                            Console.Write(Symbol);
+                        }
+                        else
+                        {
+                            Console.CursorLeft++;
+                        }
                     }
-                    else
-                    {
-                        Console.Write(" ");
-                    }
+                    Console.SetCursorPosition(posX, ++posY);
                 }
-                Console.WriteLine();
-            }
+            });
         }
     }
 
     internal sealed class Rectangle : Point
     {
+        private IEnumerable<Point> Paint { get; }
+
         public int Width { get; set; }
         public int Height { get; set; }
 
         public double Square()
         {
-            return 0;
+            return Width * Height;
         }
 
         public override void Draw()
         {
-            string s = Symbol.ToString();
-            string space = "";
-            string temp = "";
-            for (int i = 0; i < Width; i++)
+            PrintAndReset(() =>
             {
-                space += " ";
-                s += Symbol;
-            }
+                var posX = X;
+                var posY = Y;
+                var symbol = Symbol;
 
-            for (int j = 0; j < X; j++)
-                temp += " ";
+                var farBorderPosX = posX + Width;
 
-            s += Symbol + "\n";
-            for (int i = 0; i < Height; i++)
-                s += temp + Symbol + space + Symbol + "\n";
+                Console.SetCursorPosition(posX, posY);
+                Console.ForegroundColor = Color.ToConsoleColor();
 
-            s += temp + Symbol;
-            for (int i = 0; i < Width; i++)
-                s += "═";
+                for (int i = 0; i < Width; i++)
+                {
+                    Console.Write(symbol);
+                }
 
-            s += Symbol + "\n";
+                for (var i = 0; i < Height - 2; i++)
+                {
+                    Console.SetCursorPosition(posX, ++posY);
+                    Console.Write(symbol);
+                    Console.SetCursorPosition(farBorderPosX, posY);
+                    Console.Write(symbol);
+                }
 
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.CursorLeft = X;
-            Console.Write(s);
-            Console.ResetColor();
+                Console.SetCursorPosition(posX, ++posY);
+
+                for (int i = 0; i < Width; i++)
+                {
+                    Console.Write(symbol);
+                }
+            });
         }
     }
 }
